@@ -63,7 +63,7 @@ event.on('@nickname', (data, user) => {
   });
 });
 
-event.on('@dm <to-username> <message>', (data, user) => {
+event.on('@dm', (data, user) => {
   logger.log(logger.INFO, data);
   Object.keys(socketPool).forEach((userIdKey) => {
     const targetedUser = socketPool[userIdKey];

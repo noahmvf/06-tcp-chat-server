@@ -21,3 +21,7 @@ Conencted clients should be maintained in an in-memory collection called the `cl
 - When a socket emits the `close` event, the socket should be removed from the client pool
 - When a socket emits the `error` event the error should be logged on the server
 - When a socket emits the `data` event, the data should be logged on the server and the above commands should be implemented
+
+Write this documentation as if you are directing someone who has no idea of the tools you are using (netcat, Putty, etc.) how to go through all the steps from the start with installing the right dependencies, etc. Be sure to use proper markdown constructs and highlight blocks of code.
+- First, we need to install netcat and Putty via our Terminal. Both of these tools are necessary to build a chatroom
+- We also need to install our developer dependencies via npm i -D in the command line so that we have a linter to edit our code
