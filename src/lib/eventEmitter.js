@@ -1,7 +1,6 @@
 'use strict';
 
-const EventEmitter = require('eventEmitter');
+const EventEmitter = require('events');
 
-const event = new EventEmitter();
+const events = new EventEmitter();
 
-const event2 = new EventEmitter();

@@ -1,13 +1,18 @@
 'use strict';
+
 const EventEmitter = require('events');
 const net = require('net');
 const logger = require('./logger');
 const User = require('./../model/user');
+const evs = require('./eventEmitter');
+
+console.log('!!!!!!!', evs);
+
 
 const PORT = process.env.PORT || 3000;
 
 const server = net.createServer();
-const event = new EventEmitter();
+const events = new EventEmitter();
 const socketPool = {};
 
 const parseData = (buffer) => { //  parsing our binary data
@@ -34,14 +39,14 @@ const parseData = (buffer) => { //  parsing our binary data
 
 const dispatchAction = (user, buffer) => {
   const entry = parseData(buffer); // entry is our parsed data
-  if(entry) {
-    event.emit(entry.command, entry, user); // if there's an entry then we emit the command, the entry, and the user who we are typing to
+  if (entry) {
+    events.emit(entry.command, entry, user); 
   }
 };
 
 //  event listeners
 
-event.on('@all', (data, user) => {
+events.on('@all', (data, user) => {
   logger.log(logger.INFO, data);
   Object.keys(socketPool).forEach((userIdKey) => {
     const targetedUser = socketPool[userIdKey];
@@ -49,21 +54,20 @@ event.on('@all', (data, user) => {
   });
 });
 
-event.on('@list', (data, user) => {
+events.on('@list', (data, user) => {
   logger.log(logger.INFO, data);
   Object.keys(socketPool).forEach((userIdKey) => {
     user.socket.write(`${socketPool[userIdKey].nickname}\n`);
   });
 });
 
-event.on('@nickname', (data, user) => {
+events.on('@nickname', (data, user) => {
   logger.log(logger.INFO, data);
   socketPool[user._id].nickname = data.message;
-  user.socket.write(`You have changed your username to ${data.message}\n`)
-  });
+  user.socket.write(`You have changed your username to ${data.message}\n`);
 });
 
-event.on('@dm', (data, user) => {
+events.on('@dm', (data, user) => {
   logger.log(logger.INFO, data);
   Object.keys(socketPool).forEach((userIdKey) => {
     const targetedUser = socketPool[userIdKey];
@@ -85,11 +89,3 @@ server.on('connection', (socket) => {
 server.listen(PORT, () => {
   logger.log(logger.INFO, `Server up on PORT: ${PORT}`);
 });
-
-
-
-
-
-
-
-

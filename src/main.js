@@ -3,4 +3,4 @@
 require('./lib/chatroom');
 // require('./event-emitter-demo/events');
 
-//core application bootstrap
+//  core application bootstrap

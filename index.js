@@ -7,9 +7,8 @@ if (!process.env.NODE_ENV) {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  require('babel_register');
+  require('babel-register');
 }
 
 require('./src/main');
-
 
